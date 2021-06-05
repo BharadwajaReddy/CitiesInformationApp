@@ -1,4 +1,4 @@
-package com.bharadwaja.backbaseapp.data
+package com.bharadwaja.cities.data
 
 data class CityInformation(
     val Country: String,

@@ -1,4 +1,4 @@
-package com.bharadwaja.backbaseapp
+package com.bharadwaja.cities
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

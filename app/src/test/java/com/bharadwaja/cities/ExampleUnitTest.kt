@@ -1,4 +1,4 @@
-package com.bharadwaja.backbaseapp
+package com.bharadwaja.cities
 
 import org.junit.Test
 

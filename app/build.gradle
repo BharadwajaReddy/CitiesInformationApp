@@ -2,13 +2,13 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
-
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.bharadwaja.backbaseapp"
+        applicationId "com.bharadwaja.cities"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -17,6 +17,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
+    buildFeatures {
+        //for  data binding feature
+        dataBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
