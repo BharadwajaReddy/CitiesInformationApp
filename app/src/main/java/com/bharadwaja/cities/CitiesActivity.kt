@@ -2,9 +2,11 @@ package com.bharadwaja.cities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import com.bharadwaja.cities.ui.main.CitiesFragment
 
 class CitiesActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,4 +17,8 @@ class CitiesActivity : AppCompatActivity() {
                 .commitNow()
         }
     }
+
+
+
+
 }
