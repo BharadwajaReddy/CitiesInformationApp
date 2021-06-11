@@ -87,7 +87,7 @@ class CitiesFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                   //  citiesAdaptor?.getFilter()?.filter(newText)
+                //citiesAdaptor?.getFilter()?.filter(newText)
                 if (newText.length > 0) {
                     citiesViewModel.getFilteredData(newText/*, filteredCities*/)
                 } else {
