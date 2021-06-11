@@ -1,6 +1,8 @@
 package com.bharadwaja.cities.ui.main
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import android.widget.SearchView
 import android.widget.Toast
@@ -70,10 +72,10 @@ class CitiesFragment : Fragment() {
     }
 
 
-   /* override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    /* override fun onActivityCreated(savedInstanceState: Bundle?) {
+         super.onActivityCreated(savedInstanceState)
 
-    }*/
+     }*/
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,11 +90,13 @@ class CitiesFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 //citiesAdaptor?.getFilter()?.filter(newText)
+                println("======called==")
                 if (newText.length > 0) {
-                    citiesViewModel.getFilteredData(newText/*, filteredCities*/)
+                    citiesViewModel.getFilteredData(newText, cities)
                 } else {
-                    citiesAdaptorList = cities
-                    citiesAdaptor?.notifyDataSetChanged()
+                    // citiesAdaptorList.addAll(cities)
+                    //  citiesAdaptor?.notifyDataSetChanged()
+                    citiesAdaptor?.updateCityList(cities)
                 }
                 return false
             }

@@ -18,7 +18,7 @@ import com.bharadwaja.cities.data.Coordinates
 import java.util.*
 
 class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInformation>) :
-    RecyclerView.Adapter<CitiesAdaptor.CitiesViewHolder>()/*, Filterable */{
+    RecyclerView.Adapter<CitiesAdaptor.CitiesViewHolder>()/*, Filterable */ {
 
 
     var cityFilterList = LinkedList<CityInformation>()
@@ -71,14 +71,14 @@ class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInforma
         return cityFilterList.size
     }
 
-  /*  override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    cityFilterList = citiesList
-                } else {
-                    *//* var resultList = LinkedList<CityInformation>()
+    /*  override fun getFilter(): Filter {
+          return object : Filter() {
+              override fun performFiltering(constraint: CharSequence?): FilterResults {
+                  val charSearch = constraint.toString()
+                  if (charSearch.isEmpty()) {
+                      cityFilterList = citiesList
+                  } else {
+                      *//* var resultList = LinkedList<CityInformation>()
 
                       for (row in citiesList) {
                           if (row.CityName.lowercase().contains(
@@ -109,6 +109,11 @@ class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInforma
         }
     }*/
 
+    fun updateCityList(itemList: LinkedList<CityInformation>) {
+        cityFilterList.clear()
+        cityFilterList.addAll(itemList)
+        notifyDataSetChanged()
 
+    }
 }
 

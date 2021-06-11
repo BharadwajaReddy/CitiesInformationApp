@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.*
 import com.bharadwaja.cities.data.CitiesRepository
 import com.bharadwaja.cities.data.CityInformation
+import com.bharadwaja.cities.utils.BinarySearchAlgorithm
 import kotlinx.coroutines.Dispatchers
 
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ class CitiesViewModel(application: Application) : AndroidViewModel(application) 
     val mContext: Context = application.applicationContext
     val citiesRepository = CitiesRepository()
     var citiesLiveData: LiveData<LinkedList<CityInformation>>
-    var filteredCitiesLiveData: LiveData<LinkedList<CityInformation>>
+    var filteredCitiesLiveData: MutableLiveData<LinkedList<CityInformation>>
 
     init {
         citiesLiveData = MutableLiveData<LinkedList<CityInformation>>()
@@ -38,11 +39,13 @@ class CitiesViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-    fun getFilteredData(query: String/*, filteredlist: LinkedList<CityInformation>*/) {
+    fun getFilteredData(query: String, citiesList: LinkedList<CityInformation>) {
         viewModelScope.launch(Dispatchers.IO) {
-            citiesRepository.filterRecordsByCityName(/*filteredlist,*/ query)
+            //  citiesRepository.filterRecordsByCityName(/*filteredlist,*/ query)
+            val filteredData = BinarySearchAlgorithm().cityBinarySearch(citiesList, query)
+            filteredCitiesLiveData.postValue(filteredData)
         }
-        filteredCitiesLiveData = citiesRepository.getfilteredCitiesLiveData()
+
     }
 
     fun getFilteredLiveData(): LiveData<LinkedList<CityInformation>> {

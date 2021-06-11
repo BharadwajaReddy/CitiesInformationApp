@@ -13,7 +13,6 @@ class CitiesRepository {
 
 
     val citiesListLivedata = MutableLiveData<LinkedList<CityInformation>>()
-    val filteredcitiesListLivedata = MutableLiveData<LinkedList<CityInformation>>()
     val citiesList = LinkedList<CityInformation>()
     fun getAllCityRecordsFromJsonFromAssets(mContext: Context): String? {
 
@@ -61,18 +60,8 @@ class CitiesRepository {
     }
 
 
-    fun filterRecordsByCityName(/*searchedList: LinkedList<CityInformation>,*/ query: String) {
-        val filteredData = BinarySearchAlgorithm().cityBinarySearch(citiesList, query)
-        filteredcitiesListLivedata.postValue(filteredData)
-
-    }
-
     fun getCitiesLiveData(): LiveData<LinkedList<CityInformation>> {
         return citiesListLivedata
-    }
-
-    fun getfilteredCitiesLiveData(): LiveData<LinkedList<CityInformation>> {
-        return filteredcitiesListLivedata
     }
 
 
