@@ -1,5 +1,6 @@
 package com.bharadwaja.cities
 
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -13,11 +14,11 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bharadwaja.cities.data.CityInformation
 import com.bharadwaja.cities.data.Coordinates
+
 import java.util.*
 
-
 class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInformation>) :
-    RecyclerView.Adapter<CitiesAdaptor.CitiesViewHolder>(), Filterable {
+    RecyclerView.Adapter<CitiesAdaptor.CitiesViewHolder>()/*, Filterable */{
 
 
     var cityFilterList = LinkedList<CityInformation>()
@@ -49,8 +50,10 @@ class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInforma
         val coordinates: Coordinates = cityInfo.coordinates
         holder.city.text = cityInfo.CityName
         holder.country_code.text = cityInfo.Country
-        holder.longitude.text = "Longitude : " + coordinates.Longitude.toString()
-        holder.latitude.text = "Latitude : " + coordinates.Latitude.toString()
+        val longitude = StringBuilder(context.resources.getString(R.string.longitude))
+        val latitude = StringBuilder(context.resources.getString(R.string.latitude))
+        holder.longitude.text = longitude.append(coordinates.Longitude.toString())
+        holder.latitude.text = latitude.append(coordinates.Latitude.toString())
 
         val locationUri: String =
             "geo:" + coordinates.Latitude.toString() + "," + coordinates.Longitude.toString() + "?z=zoom"
@@ -68,25 +71,31 @@ class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInforma
         return cityFilterList.size
     }
 
-
-    override fun getFilter(): Filter {
+  /*  override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 if (charSearch.isEmpty()) {
                     cityFilterList = citiesList
                 } else {
-                    val resultList = LinkedList<CityInformation>()
-                    for (row in citiesList) {
-                        if (row.CityName.lowercase().contains(
-                                constraint.toString().lowercase()
-                            ) && row.CityName.lowercase()
-                                .indexOf(constraint.toString().lowercase()) == 0
-                        ) {
-                            resultList.add(row)
-                        }
-                    }
-                    cityFilterList = resultList
+                    *//* var resultList = LinkedList<CityInformation>()
+
+                      for (row in citiesList) {
+                          if (row.CityName.lowercase().contains(
+                                  constraint.toString().lowercase()
+                              ) && row.CityName.lowercase()
+                                  .indexOf(constraint.toString().lowercase()) == 0
+                          ) {
+                              resultList.add(row)
+                          }
+                      }
+                     cityFilterList=resultList*//*
+
+                    cityFilterList =
+                        BinarySearchAlgorithm().cityBinarySearch(citiesList, charSearch)
+
+                    // cityFilterList=BinarySearchAlgorithm().countOccurrences(citiesList, citiesList.size, charSearch)
+
                 }
                 val filterResults = FilterResults()
                 filterResults.values = cityFilterList
@@ -98,6 +107,8 @@ class CitiesAdaptor(val context: Context, val citiesList: LinkedList<CityInforma
                 notifyDataSetChanged()
             }
         }
-    }
+    }*/
+
 
 }
+

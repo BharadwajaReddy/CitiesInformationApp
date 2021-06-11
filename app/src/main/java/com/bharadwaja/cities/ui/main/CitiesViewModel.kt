@@ -2,29 +2,53 @@ package com.bharadwaja.cities.ui.main
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.bharadwaja.cities.data.CitiesRepository
 import com.bharadwaja.cities.data.CityInformation
+import kotlinx.coroutines.Dispatchers
+
+import kotlinx.coroutines.launch
+
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class CitiesViewModel(application: Application) : AndroidViewModel(application) {
 
     val mContext: Context = application.applicationContext
     val citiesRepository = CitiesRepository()
+    var citiesLiveData: LiveData<LinkedList<CityInformation>>
+    var filteredCitiesLiveData: LiveData<LinkedList<CityInformation>>
 
-    lateinit var citiesLiveData: LiveData<LinkedList<CityInformation>>
-    fun getAllCities() {
+    init {
         citiesLiveData = MutableLiveData<LinkedList<CityInformation>>()
-        citiesRepository.sortRecordsByCityNameInAlphabeticalOrder(mContext)
+        filteredCitiesLiveData = MutableLiveData<LinkedList<CityInformation>>()
+    }
 
+
+    fun getAllCities() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            citiesRepository.sortRecordsByCityNameInAlphabeticalOrder(mContext)
+        }
         citiesLiveData = citiesRepository.getCitiesLiveData()
     }
 
     fun getRequiredLiveData(): LiveData<LinkedList<CityInformation>> {
         return citiesLiveData
     }
+
+
+    fun getFilteredData(query: String/*, filteredlist: LinkedList<CityInformation>*/) {
+        viewModelScope.launch(Dispatchers.IO) {
+            citiesRepository.filterRecordsByCityName(/*filteredlist,*/ query)
+        }
+        filteredCitiesLiveData = citiesRepository.getfilteredCitiesLiveData()
+    }
+
+    fun getFilteredLiveData(): LiveData<LinkedList<CityInformation>> {
+
+        return filteredCitiesLiveData
+    }
+
+
 }

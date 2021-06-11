@@ -3,6 +3,7 @@ package com.bharadwaja.cities.data
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bharadwaja.cities.utils.BinarySearchAlgorithm
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.InputStream
@@ -12,7 +13,8 @@ class CitiesRepository {
 
 
     val citiesListLivedata = MutableLiveData<LinkedList<CityInformation>>()
-
+    val filteredcitiesListLivedata = MutableLiveData<LinkedList<CityInformation>>()
+    val citiesList = LinkedList<CityInformation>()
     fun getAllCityRecordsFromJsonFromAssets(mContext: Context): String? {
 
         var json: String? = null
@@ -27,11 +29,13 @@ class CitiesRepository {
     }
 
     fun sortRecordsByCityNameInAlphabeticalOrder(mContext: Context) {
+
+
         val citiesJSONArray = JSONArray(getAllCityRecordsFromJsonFromAssets(mContext))
-        val citiesList = LinkedList<CityInformation>()
+        citiesList.clear()
         for (i in 0 until citiesJSONArray.length()) {
             val cityInfoJsonObj: JSONObject = citiesJSONArray.getJSONObject(i)
-            val cityName: String = cityInfoJsonObj.getString("name")
+            val cityName: String = cityInfoJsonObj.getString("name").trim()
             val country: String = cityInfoJsonObj.getString("country")
             val id: Int = cityInfoJsonObj.getInt("_id")
             val coordinatesJsonObj = cityInfoJsonObj.getJSONObject("coord")
@@ -41,9 +45,11 @@ class CitiesRepository {
         }
 
         Collections.sort(citiesList, CityNameComparator())
-        citiesListLivedata.value = citiesList
+        citiesListLivedata.postValue(citiesList)
+
 
     }
+
 
     class CityNameComparator : Comparator<CityInformation> {
         override fun compare(o1: CityInformation?, o2: CityInformation?): Int {
@@ -54,13 +60,20 @@ class CitiesRepository {
         }
     }
 
-    fun filterRecordsByCityName(query: String) {
 
+    fun filterRecordsByCityName(/*searchedList: LinkedList<CityInformation>,*/ query: String) {
+        val filteredData = BinarySearchAlgorithm().cityBinarySearch(citiesList, query)
+        filteredcitiesListLivedata.postValue(filteredData)
 
     }
 
     fun getCitiesLiveData(): LiveData<LinkedList<CityInformation>> {
         return citiesListLivedata
     }
+
+    fun getfilteredCitiesLiveData(): LiveData<LinkedList<CityInformation>> {
+        return filteredcitiesListLivedata
+    }
+
 
 }
